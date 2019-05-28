@@ -56,14 +56,17 @@ function App() {
               component={Routes.TwoFetches}
             />
             <Route
+              path="/use_callback"
+              exact={true}
+              component={Routes.UseCallback}
+            />
+            <Route
               path="/stateful_table"
               exact={true}
               component={Routes.StatefulTable}
             />
-
             <Route path="/use_ref" component={Routes.InputRef} />
             <Route path="/use_context" component={Routes.UseContext} />
-
             <Route
               path="/use_context_with_memo"
               component={Routes.UseContextUseMemo}

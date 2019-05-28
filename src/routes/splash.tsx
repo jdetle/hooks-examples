@@ -16,6 +16,9 @@ const Splash = () => {
         <Link to="use_context">
           <Button> Context example </Button>
         </Link>
+        <Link to="use_callback">
+          <Button> Use Callback </Button>
+        </Link>
         <Link to="use_context_with_memo">
           <Button> Context with memo example </Button>
         </Link>
