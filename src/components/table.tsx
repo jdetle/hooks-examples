@@ -29,9 +29,9 @@ type ITableProps = {
   error?: { message: string } | null;
   /* Elevation of paper component containing table */
 } & WithStyles<typeof styles>;
-function TableLoader(classes: { tableLoader: string }) {
+function TableLoader(props: { classes: { tableLoader: string } }) {
   return (
-    <div data-testid="table-loader" className={classes.tableLoader}>
+    <div data-testid="table-loader" className={props.classes.tableLoader}>
       <CircularProgress />
     </div>
   );
@@ -44,14 +44,12 @@ function TableError(props: Pick<ITableProps, "error" | "classes">) {
       <p
         className={props.classes.errorMessage}
       >{`Something went wrong: ${props.error && props.error.message}`}</p>
-      <p className={props.classes.errorMessage}>
-        You might be logged out. Try logging out and logging back in.
-      </p>
     </div>
   );
 }
 
 export function Table(props: ITableProps) {
+  console.log(props.error, props.loading);
   const { title, columns, options, error, loading, data } = props;
 
   const getMuiTheme = () =>
@@ -90,7 +88,6 @@ export function Table(props: ITableProps) {
    * Render multiple potential table views
    * A Blank, Loading, Partial, Error, and Ideal Table Stateshould all be handled here.
    */
-  let TableErrorWithMsg;
 
   const tableProps: {
     columns: MUIDataTableColumnDef[];
@@ -111,11 +108,13 @@ export function Table(props: ITableProps) {
     data: [[""]]
   };
 
-  if (loading) {
+  if (loading === true) {
     tableProps.columns = [
       {
         name: "",
-        options: { customBodyRender: () => TableLoader(props.classes) }
+        options: {
+          customBodyRender: () => <TableLoader classes={props.classes} />
+        }
       }
     ];
     tableProps.data = [[""]];
@@ -125,18 +124,28 @@ export function Table(props: ITableProps) {
     };
     return <MUIDataTable {...tableProps} />;
   } else if (error != null) {
-    const classes = props.classes;
-    TableErrorWithMsg = TableError.bind(null, { error, classes });
     tableProps.columns = [
       {
         name: " ",
-        options: { filter: false, customBodyRender: TableErrorWithMsg }
+        options: {
+          filter: false,
+          customBodyRender: () => (
+            <TableError classes={props.classes} error={props.error} />
+          )
+        }
       }
     ];
-    return <MUIDataTable {...tableProps} />;
+    tableProps.options.customFooter = () => {
+      return <tbody />;
+    };
+    tableProps.data = [["error"]];
+    return (
+      <MuiThemeProvider theme={getMuiTheme()}>
+        <MUIDataTable {...tableProps} />
+      </MuiThemeProvider>
+    );
   } else {
     tableProps.data = data;
-    tableProps.options.selectableRows = true;
     return (
       <MuiThemeProvider theme={getMuiTheme()}>
         <MUIDataTable {...tableProps} />

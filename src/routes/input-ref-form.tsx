@@ -1,5 +1,7 @@
+import Card from "@material-ui/core/Card";
 import Chip from "@material-ui/core/Chip";
 import Grid from "@material-ui/core/Grid";
+
 import TextField from "@material-ui/core/TextField";
 import { FieldArray, FieldArrayRenderProps } from "formik";
 import React, { useRef, useState } from "react";
@@ -86,14 +88,18 @@ const TagCreator = ({ tags }: ITagArrayProps & ITagValues) => {
 };
 
 export default () => (
-  <Formik
-    initialValues={{
-      tags: ["tag1", "tag2"]
-    }}
-    onSubmit={() => {}}
-  >
-    {(props: FormikProps<{ tags: string[] }>) => {
-      return <TagCreator tags={props.values.tags} />;
-    }}
-  </Formik>
+  <div style={{ margin: 40 }}>
+    <Card style={{ padding: 10 }}>
+      <Formik
+        initialValues={{
+          tags: ["tag1", "tag2"]
+        }}
+        onSubmit={() => {}}
+      >
+        {(props: FormikProps<{ tags: string[] }>) => {
+          return <TagCreator tags={props.values.tags} />;
+        }}
+      </Formik>
+    </Card>
+  </div>
 );

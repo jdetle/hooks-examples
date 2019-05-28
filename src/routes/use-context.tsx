@@ -1,29 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
+import { OwnUserContext } from "./../App";
 
-const delayedFetch = (delay: number) => {
-  return new Promise(resolve => setTimeout(resolve, delay));
-};
-const OwnUserContext = (props: {}) => {
-  const [a, setA] = useState<any>("I am item a unrendered ");
-  const [b, setB] = useState<any>("I am item b unrendered!");
-  useEffect(() => {
-    delayedFetch(1000).then(() => {
-      setA("I Am Item A Rendering");
-    });
-  }, []);
-
-  useEffect(() => {
-    delayedFetch(4000).then(() => {
-      setB("I Am Item B Rendering");
-    });
-  }, []);
-
+const ContextExample = (props: {}) => {
+  const OwnUser = useContext(OwnUserContext);
   return (
-    <div>
-      <article>{a}</article>
-      <article>{b}</article>
+    <div style={{ margin: 40 }}>
+      {OwnUser == null ? "User not set" : OwnUser.email}
     </div>
   );
 };
 
-export default OwnUserContext;
+export default ContextExample;
