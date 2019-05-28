@@ -16,9 +16,13 @@ const Splash = () => {
         <Link to="use_context">
           <Button> Context example </Button>
         </Link>
+        <Link to="use_context_with_memo">
+          <Button> Context with memo example </Button>
+        </Link>
         <Link to="use_ref">
           <Button> Ref example </Button>
         </Link>
+
         <Link to="stateful_table">
           <Button> Stateful Table </Button>
         </Link>
